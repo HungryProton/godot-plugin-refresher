@@ -64,8 +64,10 @@ func _reload_plugins_list():
 
 func _load_settings():
 	var path = get_config_path()
+	var fs = DirAccess.open(path.get_base_dir())
+	if not fs:
+		return
 
-	var fs = DirAccess.new()
 	if not fs.file_exists(path):
 		# Create new if running for the first time
 		var config = ConfigFile.new()
@@ -78,7 +80,6 @@ func _save_settings():
 	plugin_config.save(get_config_path())
 
 func get_config_path():
-	return "./"
 	var paths = EditorPaths.new()
 	var dir = paths.get_project_settings_dir()
 	var home = dir.path_join(PLUGIN_CONFIG_DIR)
